@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>تسجيل الدخول</h2>
+        <input type="text" id="codeInput" placeholder="أدخل الكود">
+        <input type="submit" value="تسجيل الدخول" onclick="validateCode()">
+        <p id="errorMessage" style="color: red;"></p>
+    </div>
+
+    <script>
+        let validCodes = ["123456"];  // قائمة الأكواد الصالحة
+        let expirationTimes = [new Date().getTime() + (5 * 60 * 1000)]; // مدة صلاحية الأكواد
+
+        function validateCode() {
+            let enteredCode = document.getElementById('codeInput').value;
+            let currentTime = new Date().getTime();
+            let codeIndex = validCodes.indexOf(enteredCode);
+
+            if (codeIndex !== -1 && currentTime < expirationTimes[codeIndex]) {
+                window.location.href = "search.html";  // الانتقال إلى صفحة البحث بعد نجاح تسجيل الدخول
+            } else if (codeIndex !== -1 && currentTime >= expirationTimes[codeIndex]) {
+                document.getElementById('errorMessage').textContent = "انتهت صلاحية الكود!";
+            } else {
+                document.getElementById('errorMessage').textContent = "الكود غير صحيح!";
+            }
+        }
+    </script>
+</body>
+</html>
